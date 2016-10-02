@@ -16,6 +16,7 @@
 #include <errno.h>
 #include <cstdio>
 #include <cstdlib>
+#include <unistd.h>
 
 #include <iostream>
 
@@ -25,44 +26,112 @@ using std::endl;
 Server::~Server()
 {
 	// TODO Auto-generated destructor stub
+	close(mUDPLocalSockFd);
 }
 
-Server::Server(string address, int port_number, string name) :
-		mName(name), mAddress(address), mPort(port_number)
+Server::Server(int remote_port, int local_port, string name) :
+		mName(name), mUDPRemotePort(remote_port), mUDPLocalPort(local_port)
 {
+	mUDPLocalSockFd = -1;
+	mUDPRemoteSockFd = -1;
+
 	if (name == "AWS")
 	{
 		mIsAws = true;
-		initServerAWS();
 	}
 	else
 	{
 		mIsAws = false;
-		initServer();
 	}
+
+//	initServer();
 }
 
-void Server::initServer()
+bool Server::initServer()
 {
-	// create socket
-	mSockFd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (mSockFd < 0)
+	// Init UDP listening server
+
+	bool res = true;
+
+	// create listener socket
+	mUDPLocalSockFd = socket(AF_INET, SOCK_DGRAM, 0);
+	if (mUDPLocalSockFd < 0)
 	{
 		perror("Error opening socket");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
+		res = false;
 	}
 
-//	// convert server name
-//	struct hostent* server;
-//	server = gethostbyname(mAddress.c_str()); // default server
-//	if (server == NULL)
-//	{
-//		std::string msg("Can't connect to ");
-//		msg.append(mAddress);
-//		perror(msg.c_str());
-//	}
+//	/*
+//	 * reuse port
+//	 */
+//	int optval = 1;
+//	setsockopt(mUDPLocalSockFd, SOL_SOCKET, SO_REUSEPORT,
+//			(const void *) &optval, sizeof(int));
+
+
+
+	return res;
 }
 
-void Server::initServerAWS()
+void Server::runServer()
 {
+}
+
+long Server::getMin(const vector<long>& vec_data)
+{
+	long result = *vec_data.begin();
+
+	for (vector<long>::const_iterator it = vec_data.begin();
+			it != vec_data.end(); ++it)
+	{
+		if (result > *it)
+		{
+			result = *it;
+		}
+	}
+
+	return result;
+}
+
+long Server::getMax(const vector<long>& vec_data)
+{
+	long result = *vec_data.begin();
+
+	for (vector<long>::const_iterator it = vec_data.begin();
+			it != vec_data.end(); ++it)
+	{
+		if (result < *it)
+		{
+			result = *it;
+		}
+	}
+
+	return result;
+}
+
+long Server::getSum(const vector<long>& vec_data)
+{
+	long result = 0;
+
+	for (vector<long>::const_iterator it = vec_data.begin();
+			it != vec_data.end(); ++it)
+	{
+		result += *it;
+	}
+
+	return result;
+}
+
+long Server::getSos(const vector<long>& vec_data)
+{
+	long result = 0;
+
+	for (vector<long>::const_iterator it = vec_data.begin();
+			it != vec_data.end(); ++it)
+	{
+		result += (*it) * (*it);
+	}
+
+	return result;
 }

@@ -1,5 +1,5 @@
 Makefile
 README.txt
 nums.csv
-detect_system.sh
+
 

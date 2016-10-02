@@ -8,9 +8,9 @@ BINCLIENT = client
 
 SERVER_CLASS_OBJS = server_class.o common.o
 SERVER_OBJS = $(SERVER_CLASS_OBJS) server.o
-SERVERA_OBJS = $(SERVER_CLASS_OBJS) serverA.o
-SERVERB_OBJS = $(SERVER_CLASS_OBJS) serverB.o
-SERVERC_OBJS = $(SERVER_CLASS_OBJS) serverC.o
+SERVERA_OBJS = $(SERVER_CLASS_OBJS) serverA.o backend_server.o
+SERVERB_OBJS = $(SERVER_CLASS_OBJS) serverB.o backend_server.o
+SERVERC_OBJS = $(SERVER_CLASS_OBJS) serverC.o backend_server.o
 SERVERCAWS_OBJS = $(SERVER_CLASS_OBJS) serveraws.o
 CLIENT_OBJS = 
 # Config build structure end ######################################

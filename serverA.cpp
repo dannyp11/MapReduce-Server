@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "common.h"
-#include "server_class.h"
+#include "backend_server.h"
 
 using std::cout;
 using std::endl;
@@ -12,9 +11,9 @@ int main(int argc, char** argv)
 {
 	parse_command_line_args(argc, argv);
 
-	Server serverA("nunki.usc.edu", UDP_PORT_A, "A");
+	BackendServer serverA(UDP_PORT_A, UDP_PORT_AWS, "localhost", "A");
 
-	cout << "Server A" << endl;
+	serverA.runServer();
 
 	return 0;
 }
