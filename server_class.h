@@ -2,7 +2,7 @@
  * server_class.h
  *
  *  Created on: Oct 2, 2016
- *      Author: danny
+ *      Author: Dat
  *
  * This defines all server behaviors
  *
@@ -11,24 +11,38 @@
 #ifndef SERVER_CLASS_H_
 #define SERVER_CLASS_H_
 
-class Server {
-public:
-	/*
-	 * name of back end server
-	 */
-	typedef enum e_ServerName{
-		A = 'A',
-		B = 'B',
-		C = 'C',
-		AWS
-	} ServerName;
+#include <string>
+#include   <netinet/in.h>
 
-	Server(ServerName name = AWS);
+using std::string;
+
+class Server
+{
+public:
+	Server(string address, int port_number, string name = "AWS");
 	virtual ~Server();
 
-private:
+protected:
+	/*
+	 * Init server A B C
+	 */
+	void initServer();
+
+	/*
+	 * Init aws server
+	 */
+	void initServerAWS();
+
+protected:
 	bool mIsAws;
-	ServerName mName;
+	string mName;
+	string mAddress;
+	int mPort;
+
+protected: // udp variables
+	int mSockFd;
+	struct sockaddr_in	mServer_Addr;
+
 
 };
 

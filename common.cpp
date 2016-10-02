@@ -11,21 +11,26 @@ using std::cout;
 using std::endl;
 using std::string;
 
-void show_usage(const char* bin_name) {
+void show_usage(const char* bin_name)
+{
 	cout << "usage: " << bin_name << " [-OPTION] [VALUE]" << endl;
 	cout << "		[-i show binary info]" << endl;
 	cout << "		[-h show help]" << endl;
 	exit(1);
 }
 
-void parse_command_line_args(int argc, char** argv) {
+void parse_command_line_args(int argc, char** argv)
+{
 	char* exec_name = *argv;
 	signed char command;
 
-	while ((command = getopt(argc, argv, "i")) != -1) {
-		switch (command) {
+	while ((command = getopt(argc, argv, "ih")) != -1)
+	{
+		switch (command)
+		{
 
-		case 'i': {
+		case 'i':
+		{
 			cout << "Built: " << __DATE__ << " " << __TIME__ << endl;
 
 			string cpp_version = "";
@@ -42,12 +47,17 @@ void parse_command_line_args(int argc, char** argv) {
 		}
 			break;
 
-		default:
+		case 'h':
 			show_usage(exec_name);
+			break;
+
+		default:
+//			show_usage(exec_name);
 			break;
 		}
 
-		if (optind < argc) {
+		if (optind < argc)
+		{
 			//			show_usage(exec_name);
 		}
 	}

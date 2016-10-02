@@ -25,10 +25,9 @@ ARCHFLAGS =
 # Compiler flags ends ---------------------------------------------
 #.PHONY: serverA
 
-all: Scripts $(BINSERVER) $(BINA)
+all: Scripts $(BINA)
 
 Scripts:
-	
 
 clean:
 	rm -rf *.o *.so 
