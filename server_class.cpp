@@ -7,8 +7,16 @@
 
 #include "server_class.h"
 
-Server::Server() {
-	// TODO Auto-generated constructor stub
+Server::Server(ServerName name) : mName(name) {
+
+	if (name == AWS)
+	{
+		mIsAws = true;
+	}
+	else
+	{
+		mIsAws = false;
+	}
 
 }
 

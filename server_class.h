@@ -13,8 +13,23 @@
 
 class Server {
 public:
-	Server();
+	/*
+	 * name of back end server
+	 */
+	typedef enum e_ServerName{
+		A = 'A',
+		B = 'B',
+		C = 'C',
+		AWS
+	} ServerName;
+
+	Server(ServerName name = AWS);
 	virtual ~Server();
+
+private:
+	bool mIsAws;
+	ServerName mName;
+
 };
 
 #endif /* SERVER_CLASS_H_ */
