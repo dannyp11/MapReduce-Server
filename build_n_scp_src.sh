@@ -5,8 +5,9 @@ make
 
 # scp src folder to nunki
 make clean
-#scp -r ../ee450_projects datpham@nunki:~/ee450/project
+
 echo "syncing with nunki..."
-rsync -au --exclude=".*" --exclude="build_n_scp_src.sh*" . datpham@nunki:~/ee450/project
+rsync -auR --no-implied-dirs --files-from=sync_list.txt . datpham@nunki:~/ee450/project
+rsync -avuR --no-implied-dirs --include="*.cpp" --include="*.h" --exclude="*" . datpham@nunki:~/ee450/project
 echo "done"
 

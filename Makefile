@@ -1,42 +1,71 @@
 # Config build structure ##########################################
-BIN_DIR = bin/
+BINSERVER = server
+BINA = serverA_exe
+BINB = serverB_exe
+BINC = serverC_exe
+BINAWS = serveraws_exe
+BINCLIENT = client
 
-BIN1 = $(BIN_DIR)server
-BIN2 = $(BIN_DIR)client
+SERVER_CLASS_OBJS = server_class.o common.o
+SERVER_OBJS = $(SERVER_CLASS_OBJS) server.o
+SERVERA_OBJS = $(SERVER_CLASS_OBJS) serverA.o
+SERVERB_OBJS = $(SERVER_CLASS_OBJS) serverB.o
+SERVERC_OBJS = $(SERVER_CLASS_OBJS) serverC.o
+SERVERCAWS_OBJS = $(SERVER_CLASS_OBJS) serveraws.o
+CLIENT_OBJS = 
 # Config build structure end ######################################
 
 # Compiler flags -------------------------------------------------
 CC =g++
-
 DEBUG = -g
 CFLAGS = -c -Wall -Werror $(DEBUG)
 IFLAGS = -I. 
 LDFLAGS = -pthread
 ARCHFLAGS = 
 # Compiler flags ends ---------------------------------------------
+#.PHONY: serverA
 
-all: Scripts BUILD_SERVER BUILD_CLIENT
+all: Scripts $(BINSERVER) $(BINA)
 
 Scripts:
-	mkdir -p $(BIN_DIR)
+	
 
 clean:
 	rm -rf *.o *.so 
-	rm $(BIN1) $(BIN2)
-	rm -r $(BIN_DIR)
+	rm -rf $(OBJDIR)
+	rm -f $(BINSERVER) $(BINA) $(BINB) $(BINC) $(BINAWS)
+	rm -f $(BINCLIENT)
+
+serverA: $(BINA)
+	./$(BINA)
+
+serverB: $(BINB)
+	./$(BINB)
+
+serverC: $(BINC)
+	./$(BINC)
+
+serveraws: $(BINAWS)
+	./$(BINAWS)
 
 # Build code #######################################
-BUILD_SERVER: server.o common.o
-	$(CC) $(LDFLAGS) -o $(BIN1) server.o common.o
+%.o:%.cpp
+	$(CC) $(CFLAGS) $(IFLAGS) $(ARCHFLAGS) $< -o $@
 
-BUILD_CLIENT: client.o common.o 
-	$(CC) $(LDFLAGS) -o $(BIN2) client.o common.o
+$(BINSERVER): $(SERVER_OBJS)
+	$(CC) $(LDFLAGS) $(SERVER_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
 
-server.o: server.cpp
-	$(CC) $(CFLAGS) $(IFLAGS) server.cpp
+$(BINA): $(SERVERA_OBJS)
+	$(CC) $(LDFLAGS) $(SERVERA_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
 
-client.o: client.cpp
-	$(CC) $(CFLAGS) $(IFLAGS) client.cpp
+$(BINB): $(SERVERB_OBJS)
+	$(CC) $(LDFLAGS) $(SERVERB_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
 
-common.o: common.cpp
-	$(CC) $(CFLAGS) $(IFLAGS) common.cpp
+$(BINC): $(SERVERC_OBJS)
+	$(CC) $(LDFLAGS) $(SERVERC_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
+
+$(BINAWS): $(SERVERAWS_OBJS)
+	$(CC) $(LDFLAGS) $(SERVERAWS_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
+
+$(BINCLIENT): $(CLIENT_OBJS)
+	$(CC) $(LDFLAGS) $(CLIENT_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@

@@ -1,7 +1,3 @@
-/*
- * This binary is for testing server class
- */
-
 #include <iostream>
 #include <string>
 
@@ -14,6 +10,8 @@ using std::string;
 
 int main(int argc, char** argv) {
 	parse_command_line_args(argc, argv);
+
+	cout << "Server A" << endl;
 
 	return 0;
 }
