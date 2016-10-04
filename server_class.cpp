@@ -30,10 +30,9 @@ Server::~Server()
 }
 
 Server::Server(int remote_port, int local_port, string name) :
-		mName(name), mUDPRemotePort(remote_port), mUDPLocalPort(local_port)
+		mName(name), mUDPLocalPort(local_port)
 {
 	mUDPLocalSockFd = -1;
-	mUDPRemoteSockFd = -1;
 
 	if (name == "AWS")
 	{

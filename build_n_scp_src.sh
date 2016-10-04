@@ -20,3 +20,6 @@ echo "done"
 
 #restore Makefile
 sed -i "s/$NEW/$ORIG/g" Makefile
+
+# run makefile on remote machine
+#ssh datpham@nunki '( cd ~/ee450/project/ && make clean) ; ( cd ~/ee450/project/ && make)'

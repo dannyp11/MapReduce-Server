@@ -21,13 +21,13 @@ using std::vector;
 class Server
 {
 public:
-	Server(int remote_port, int local_port, string name = "A");
+	Server(int remote_port, int local_port, string name = "A"); // ports are static udp
 	virtual ~Server();
 
 	/*
 	 *Run listener on server
 	 */
-	virtual void runServer();
+	virtual void runServer() = 0;
 
 protected:
 	/*
@@ -38,12 +38,11 @@ protected:
 protected:
 	bool mIsAws;
 	string mName;
-	int mUDPRemotePort; // static remote UDP port to talk with servers
+	//int mUDPRemotePort; // static remote UDP port to talk with servers
 	int mUDPLocalPort; // static local UDP port to get data from server
 
 protected:
 	// udp variables
-	int mUDPRemoteSockFd;
 	int mUDPLocalSockFd;
 	struct sockaddr_in mServer_Addr;
 
