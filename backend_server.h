@@ -29,7 +29,11 @@ public:
 	void runServer();
 
 private:
+	struct hostent* mAwsServer_hostent;
+	struct sockaddr_in mAwsSockaddr_in;
 	string mAWSAddress;
+	int		mAWSPort;
+
 	vector<long> mIncomingData;
 	ServerMessage mMessage;
 };

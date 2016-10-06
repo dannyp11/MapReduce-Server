@@ -15,5 +15,19 @@ int main(int argc, char** argv)
 
 	serverA.runServer();
 
+
+	// debug stuff
+	ServerMessage message;
+	message.command = SUM;
+	message.resultValue = 123456;
+	message.serverName = "aws";
+
+	for (int i =0; i< 1000;i++)
+	{
+		message.data.push_back(-i);
+	}
+
+//	TRACE(sizeof(message));
+
 	return 0;
 }

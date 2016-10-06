@@ -17,8 +17,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
+#include <string.h>
 
 #include <iostream>
+#include "common.h"
 
 using std::cout;
 using std::endl;
@@ -29,12 +31,12 @@ Server::~Server()
 	close(mUDPLocalSockFd);
 }
 
-Server::Server(int remote_port, int local_port, string name) :
+Server::Server(int local_port, string name) :
 		mName(name), mUDPLocalPort(local_port)
 {
 	mUDPLocalSockFd = -1;
 
-	if (name == "AWS")
+	if (name == "AWS" || name == "aws")
 	{
 		mIsAws = true;
 	}
@@ -61,14 +63,18 @@ bool Server::initServer()
 		res = false;
 	}
 
-//	/*
-//	 * reuse port
-//	 */
-//	int optval = 1;
-//	setsockopt(mUDPLocalSockFd, SOL_SOCKET, SO_REUSEPORT,
-//			(const void *) &optval, sizeof(int));
+	// setup client IP
+	memset(&mUDPLocalAddr_in, '\0', sizeof(mUDPLocalAddr_in));
+	mUDPLocalAddr_in.sin_family = AF_INET;
+	mUDPLocalAddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
+	mUDPLocalAddr_in.sin_port = htons(mUDPLocalPort);
 
-
+	// bind local udp to socket
+	if (bind(mUDPLocalSockFd, (struct sockaddr*) &mUDPLocalAddr_in, sizeof(mUDPLocalAddr_in))< 0)
+	{
+		LOG("Error binding socket of server " + mName);
+		exit(1);
+	}
 
 	return res;
 }
