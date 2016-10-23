@@ -22,9 +22,9 @@ int main(int argc, char** argv)
 	message.resultValue = 123456;
 	message.serverName = "aws";
 
-	for (int i =0; i< 1000;i++)
+	for (int i =0; i< 300;i++)
 	{
-		message.data.push_back(-i);
+		message.data[i] = i*i;
 	}
 
 //	TRACE(sizeof(message));

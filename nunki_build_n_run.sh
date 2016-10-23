@@ -4,7 +4,7 @@
 cd ~/ee450/project
 
 # make
-make clean
+#make clean
 make
 
 echo "------------- make done ----------------------"

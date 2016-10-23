@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # try to build
-make clean
+#make clean
 make
 
 # edit makefile for sunOS compability ---------------------------

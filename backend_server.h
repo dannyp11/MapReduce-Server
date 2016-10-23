@@ -34,7 +34,7 @@ private:
 	string mAWSAddress;
 	int		mAWSPort;
 
-	vector<long> mIncomingData;
+	long mIncomingData[MAX_UDP_ENTRIES];
 	ServerMessage mMessage;
 };
 

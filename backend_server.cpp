@@ -72,17 +72,47 @@ void BackendServer::runServer()
 {
 	// setup recving message
 	char buf[BUF_LEN];
-	unsigned msg_len = sizeof(struct sockaddr_storage);
+	socklen_t msg_len = sizeof(struct sockaddr_storage);
 
-	while (recvfrom(mUDPLocalSockFd, buf, sizeof(buf), 0,
+	while (recvfrom(mUDPLocalSockFd, &mMessage, sizeof(mMessage), 0,
 			(struct sockaddr*) &mAwsSockaddr_in, &msg_len) > 0)
 	{
 		// process received message
 		// todo
-		int len = strlen(buf);
-		string buf_s(buf, len);
-		TRACE(buf_s);
+//		size_t len = strlen(buf) - 1;
+//		string buf_s(buf, len);
 
-		break;
+//		TRACE(msg_len);
+//		TRACE(len);
+//		TRACE(buf_s);
+//		TRACE(buf);
+
+		//mMessage = (ServerMessage)buf;
+
+		TRACE(mMessage.command);
+		vector<long> messageData;
+		for (int i = 0; i < MAX_UDP_ENTRIES; i++)
+		{
+			messageData.push_back(mMessage.data[i]);
+		}
+
+		TRACE(getSos(messageData));
+
+
+		// determine the sender
+		if (mAwsSockaddr_in.sin_port != UDP_PORT_AWS)
+		{
+			cout << "You're not AWS!" << endl;
+			continue;
+		}
+
+		// send back to sender
+
+
+
+		// clear buf
+		memset(&buf, 0, sizeof(buf));
+
+		//break;
 	}
 }

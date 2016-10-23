@@ -1,5 +1,4 @@
 # Config build structure ##########################################
-BINSERVER = server
 BINA = serverA_exe
 BINB = serverB_exe
 BINC = serverC_exe
@@ -7,11 +6,10 @@ BINAWS = serveraws_exe
 BINCLIENT = client
 
 SERVER_CLASS_OBJS = server_class.o common.o
-SERVER_OBJS = $(SERVER_CLASS_OBJS) server.o
 SERVERA_OBJS = $(SERVER_CLASS_OBJS) serverA.o backend_server.o
 SERVERB_OBJS = $(SERVER_CLASS_OBJS) serverB.o backend_server.o
 SERVERC_OBJS = $(SERVER_CLASS_OBJS) serverC.o backend_server.o
-SERVERCAWS_OBJS = $(SERVER_CLASS_OBJS) serveraws.o
+SERVERAWS_OBJS = $(SERVER_CLASS_OBJS) aws.o aws_server.o
 CLIENT_OBJS = 
 # Config build structure end ######################################
 
@@ -25,14 +23,14 @@ ARCHFLAGS =
 # Compiler flags ends ---------------------------------------------
 #.PHONY: serverA
 
-all: Scripts $(BINA)
+all: Scripts $(BINA) $(BINAWS)
 
 Scripts:
 
 clean:
 	rm -rf *.o *.so 
 	rm -rf $(OBJDIR)
-	rm -f $(BINSERVER) $(BINA) $(BINB) $(BINC) $(BINAWS)
+	rm -f $(BINA) $(BINB) $(BINC) $(BINAWS)
 	rm -f $(BINCLIENT)
 
 serverA: $(BINA)
@@ -44,15 +42,12 @@ serverB: $(BINB)
 serverC: $(BINC)
 	./$(BINC)
 
-serveraws: $(BINAWS)
+aws: $(BINAWS)
 	./$(BINAWS)
 
 # Build code #######################################
 %.o:%.cpp
 	$(CC) $(CFLAGS) $(IFLAGS) $(ARCHFLAGS) $< -o $@
-
-$(BINSERVER): $(SERVER_OBJS)
-	$(CC) $(LDFLAGS) $(SERVER_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
 
 $(BINA): $(SERVERA_OBJS)
 	$(CC) $(LDFLAGS) $(SERVERA_OBJS) $(IFLAGS) $(ARCHFLAGS) -o $@
