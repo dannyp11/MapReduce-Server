@@ -70,45 +70,97 @@ bool BackendServer::initServer()
 
 void BackendServer::runServer()
 {
+	Server::runServer();
+
 	// setup recving message
-	char buf[BUF_LEN];
+	char buf[sizeof(ServerMessage)];
 	socklen_t msg_len = sizeof(struct sockaddr_storage);
 
-	while (recvfrom(mUDPLocalSockFd, &mMessage, sizeof(mMessage), 0,
+	while (recvfrom(mUDPLocalSockFd, buf, sizeof(buf), 0,
 			(struct sockaddr*) &mAwsSockaddr_in, &msg_len) > 0)
 	{
 		// process received message
-		// todo
-//		size_t len = strlen(buf) - 1;
-//		string buf_s(buf, len);
+		memcpy(&mMessage, buf, sizeof(buf));
 
-//		TRACE(msg_len);
-//		TRACE(len);
-//		TRACE(buf_s);
-//		TRACE(buf);
-
-		//mMessage = (ServerMessage)buf;
-
-		TRACE(mMessage.command);
 		vector<long> messageData;
-		for (int i = 0; i < MAX_UDP_ENTRIES; i++)
+		for (int i = 0; i < mMessage.entriesCount; i++)
 		{
 			messageData.push_back(mMessage.data[i]);
 		}
 
-		TRACE(getSos(messageData));
+		TRACE(mMessage.serverName);
 
+		// output to console
+		cout << "The Server " << mName << " has received "
+				<< mMessage.entriesCount << " numbers" << endl;
 
 		// determine the sender
-		if (mAwsSockaddr_in.sin_port != UDP_PORT_AWS)
+		if (mAwsSockaddr_in.sin_port != htons(UDP_PORT_AWS))
 		{
-			cout << "You're not AWS!" << endl;
+			cout << "You're not AWS! Your port is " << mAwsSockaddr_in.sin_port
+					<< endl;
 			continue;
 		}
 
+		// calculate
+		switch (mMessage.command)
+		{
+		case SUM:
+		{
+			mMessage.resultValue = getSum(messageData);
+			cout << "The Server " << mName << " has finished the reduction SUM: "
+					<< mMessage.resultValue << endl;
+		}
+			break;
+
+		case MIN:
+		{
+			mMessage.resultValue = getMin(messageData);
+			cout << "The Server " << mName << " has finished the reduction MIN: "
+								<< mMessage.resultValue << endl;
+		}
+			break;
+
+		case MAX:
+		{
+			mMessage.resultValue = getMax(messageData);
+			cout << "The Server " << mName << " has finished the reduction MAX: "
+								<< mMessage.resultValue << endl;
+		}
+			break;
+
+		case SOS:
+		{
+			mMessage.resultValue = getSos(messageData);
+			cout << "The Server " << mName << " has finished the reduction SOS: "
+								<< mMessage.resultValue << endl;
+		}
+			break;
+
+		default:
+			cout << "Invalid command" << endl;
+			break;
+		}
+
+		mMessage.command = RESULT;
+		mMessage.entriesCount = 0;
+		strncpy(mMessage.serverName, mName.c_str(), mName.length());
+		mMessage.serverName[mName.length()] = '\0';
+
 		// send back to sender
+		memcpy(buf, &mMessage, sizeof(mMessage));
+		int byte_sent = sendto(mUDPLocalSockFd, buf, sizeof(buf), 0,
+				(sockaddr*) &mAwsSockaddr_in, sizeof(mAwsSockaddr_in));
 
-
+		if (byte_sent < 0)
+		{
+			perror("Can't send result to AWS");
+		}
+		else
+		{
+			cout << "The Server " << mName << " has successfully finished sending"
+					<< " the reduction value to AWS server" << endl;
+		}
 
 		// clear buf
 		memset(&buf, 0, sizeof(buf));

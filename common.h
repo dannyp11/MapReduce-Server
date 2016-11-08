@@ -3,6 +3,10 @@
  * This contains config items such as port numbers, IP address, etc.
  */
 
+#include <string>
+
+using std::string;
+
 // debug macro
 #define LOG(msg) \
     std::cout << __FILE__ << "(" << __LINE__ << "): " << msg << std::endl ;
@@ -26,10 +30,15 @@ const int MAX_TCP_ENTRIES = 350;
 /*
  * define client - aws server message structure
  */
+typedef enum e_ClientCalcCommand
+{
+	CMIN, CMAX, CSUM, CSOS, CRESULT
+} ClientCalcCommand;
+
 typedef struct s_ClientMessage
 {
 	string serverName;
-	CalcCommand command; // RESULT if reply
+	ClientCalcCommand command; // RESULT if reply
 	long data[MAX_TCP_ENTRIES]; // must be null if sent from A, B, C. Limit to 350 values
 	long resultValue; // must be LONG_MIN if sent from AWS
 } ClientMessage;

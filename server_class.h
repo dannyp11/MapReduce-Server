@@ -20,10 +20,10 @@ using std::vector;
 
 const int BUF_LEN = 65534;
 const int MAX_UDP_ENTRIES = 350;
+const int NAME_LEN = 256;
 
 // Message Packet specificatino --------------------
 // this is used for server communicating with each other
-
 typedef enum e_CalcCommand
 {
 	MIN, MAX, SUM, SOS, RESULT
@@ -31,8 +31,12 @@ typedef enum e_CalcCommand
 
 typedef struct s_ServerMessage
 {
-	string serverName;
+	// header
+	char serverName[NAME_LEN];
 	CalcCommand command;
+
+	// payload
+	int entriesCount;
 	long data[MAX_UDP_ENTRIES]; // must be null if sent from A, B, C. Limit to 350 values
 	long resultValue; // must be LONG_MIN if sent from AWS
 } ServerMessage;
@@ -65,12 +69,14 @@ protected:
 	int mUDPLocalSockFd;
 	struct sockaddr_in mUDPLocalAddr_in;
 
-protected: // data handling
+protected:
+	// data handling
 	long getMin(const vector<long>& vec_data);
 	long getMax(const vector<long>& vec_data);
 	long getSum(const vector<long>& vec_data);
 	long getSos(const vector<long>& vec_data);
 
-
+private:
+	bool isInitSuccess;
 };
 #endif /* SERVER_CLASS_H_ */

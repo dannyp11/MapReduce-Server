@@ -35,6 +35,7 @@ Server::Server(int local_port, string name) :
 		mName(name), mUDPLocalPort(local_port)
 {
 	mUDPLocalSockFd = -1;
+	isInitSuccess = false;
 
 	if (name == "AWS" || name == "aws")
 	{
@@ -58,12 +59,12 @@ bool Server::initServer()
 	mUDPLocalSockFd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (mUDPLocalSockFd < 0)
 	{
+		res = false;
 		perror("Error opening socket");
 		exit(EXIT_FAILURE);
-		res = false;
 	}
 
-	// setup client IP
+	// setup local IP
 	memset(&mUDPLocalAddr_in, '\0', sizeof(mUDPLocalAddr_in));
 	mUDPLocalAddr_in.sin_family = AF_INET;
 	mUDPLocalAddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -76,11 +77,17 @@ bool Server::initServer()
 		exit(1);
 	}
 
+	isInitSuccess = res;
 	return res;
 }
 
 void Server::runServer()
 {
+	if (!isInitSuccess)
+	{
+		cout << "Can't run server because it fails initing" << endl;
+		return;
+	}
 }
 
 long Server::getMin(const vector<long>& vec_data)

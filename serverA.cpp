@@ -17,15 +17,15 @@ int main(int argc, char** argv)
 
 
 	// debug stuff
-	ServerMessage message;
-	message.command = SUM;
-	message.resultValue = 123456;
-	message.serverName = "aws";
-
-	for (int i =0; i< 300;i++)
-	{
-		message.data[i] = i*i;
-	}
+//	ServerMessage message;
+//	message.command = SUM;
+//	message.resultValue = 123456;
+//	message.serverName = "aws";
+//
+//	for (int i =0; i< 300;i++)
+//	{
+//		message.data[i] = i*i;
+//	}
 
 //	TRACE(sizeof(message));
 
