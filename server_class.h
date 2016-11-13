@@ -19,7 +19,7 @@ using std::string;
 using std::vector;
 
 const int BUF_LEN = 65534;
-const int MAX_UDP_ENTRIES = 350;
+const int MAX_UDP_ENTRIES = 335;
 const int NAME_LEN = 256;
 
 // Message Packet specificatino --------------------
@@ -38,7 +38,7 @@ typedef struct s_ServerMessage
 	// payload
 	int entriesCount;
 	long data[MAX_UDP_ENTRIES]; // must be null if sent from A, B, C. Limit to 350 values
-	long resultValue; // must be LONG_MIN if sent from AWS
+	long long resultValue; // must be LONG_MIN if sent from AWS
 } ServerMessage;
 // ----------------------------------------
 
@@ -76,10 +76,10 @@ protected:
 
 protected:
 	// data handling
-	long getMin(const vector<long>& vec_data) const;
-	long getMax(const vector<long>& vec_data) const;
-	long getSum(const vector<long>& vec_data) const;
-	long getSos(const vector<long>& vec_data) const;
+	long long getMin(const vector<long>& vec_data) const;
+	long long getMax(const vector<long>& vec_data) const;
+	long long getSum(const vector<long>& vec_data) const;
+	long long getSos(const vector<long>& vec_data) const;
 
 	vector<long> getVectorFromArray(int data_len, const long data[]) const;
 

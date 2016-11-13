@@ -89,69 +89,69 @@ void Server::runServer()
 	}
 }
 
-long Server::getMin(const vector<long>& vec_data) const
+long long Server::getMin(const vector<long>& vec_data) const
 {
-	long result = *vec_data.begin();
-
 	if (vec_data.size() == 0)
 	{
-		return LONG_MAX;
+		return LLONG_MAX;
 	}
+
+	long long result = static_cast<long long>(*vec_data.begin());
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
 	{
-		if (result > *it)
+		if (result > static_cast<long long>(*it))
 		{
-			result = *it;
+			result = static_cast<long long>(*it);
 		}
 	}
 
 	return result;
 }
 
-long Server::getMax(const vector<long>& vec_data) const
+long long Server::getMax(const vector<long>& vec_data) const
 {
-	long result = *vec_data.begin();
-
 	if (vec_data.size() == 0)
 	{
-		return LONG_MIN;
+		return LLONG_MIN;
 	}
+
+	long long result = static_cast<long long>(*vec_data.begin());
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
 	{
-		if (result < *it)
+		if (result < static_cast<long long>(*it))
 		{
-			result = *it;
+			result = static_cast<long long>(*it);
 		}
 	}
 
 	return result;
 }
 
-long Server::getSum(const vector<long>& vec_data) const
+long long Server::getSum(const vector<long>& vec_data) const
 {
-	long result = 0;
+	long long result = 0;
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
 	{
-		result += *it;
+		result += static_cast<long long>(*it);
 	}
 
 	return result;
 }
 
-long Server::getSos(const vector<long>& vec_data) const
+long long Server::getSos(const vector<long>& vec_data) const
 {
-	long result = 0;
+	long long result = 0;
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
 	{
-		result += (*it) * (*it);
+		result += static_cast<long long>(*it) * static_cast<long long>(*it);
 	}
 
 	return result;

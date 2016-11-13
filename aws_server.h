@@ -24,7 +24,7 @@ public:
 	void runServer();
 
 protected:
-	long getResultFromBackend(const ClientMessage& clientMessage) const;
+	long long getResultFromBackend(const ClientMessage& clientMessage) const;
 
 	// get message from client
 	ClientMessage getClientMessage();

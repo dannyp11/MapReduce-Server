@@ -130,7 +130,7 @@ void AWSServer::runServer()
 		ClientMessage recv_client_msg = getClientMessage();
 
 		// send and get calculated result from backends
-		long final_result = getResultFromBackend(recv_client_msg);
+		long long final_result = getResultFromBackend(recv_client_msg);
 
 		// output result to console
 		cout << "The " << mName << " has successfully finished the reduction "
@@ -156,10 +156,11 @@ void AWSServer::runServer()
 	}
 }
 
-long AWSServer::getResultFromBackend(const ClientMessage& clientMessage) const
+long long AWSServer::getResultFromBackend(
+		const ClientMessage& clientMessage) const
 {
-	long result = 0;
-	vector<long> vec_collected_results;
+	long long result = 0;
+	vector<long long> vec_collected_results;
 
 	// determine command from client -------------------------------
 	CalcCommand backend_cmd;
@@ -288,7 +289,7 @@ long AWSServer::getResultFromBackend(const ClientMessage& clientMessage) const
 	bool hasBData = (msgB_backend.entriesCount == 0);
 	bool hasCData = (msgC_backend.entriesCount == 0);
 
-	long resultA, resultB, resultC;
+	long long resultA, resultB, resultC;
 
 	socklen_t msg_len = sizeof(struct sockaddr_storage);
 	char buf[sizeof(ServerMessage)];
@@ -299,7 +300,7 @@ long AWSServer::getResultFromBackend(const ClientMessage& clientMessage) const
 		ServerMessage msgfrom_backend;
 		memcpy(&msgfrom_backend, buf, sizeof(buf));
 		string backendName;
-		long backend_result = -1;
+		long long backend_result = -1;
 		string cmdName = getCalcCommandName(backend_cmd);
 
 		// determine the sender
@@ -359,16 +360,46 @@ long AWSServer::getResultFromBackend(const ClientMessage& clientMessage) const
 	switch (backend_cmd)
 	{
 	case SUM:
-		result = getSum(vec_collected_results);
+	{
+		result = 0;
+		for (unsigned i = 0; i < vec_collected_results.size(); ++i)
+		{
+			result += vec_collected_results.at(i);
+		}
+	}
 		break;
 	case MIN:
-		result = getMin(vec_collected_results);
+	{
+		result = LLONG_MAX;
+		for (unsigned i = 0; i < vec_collected_results.size(); ++i)
+		{
+			if (result > vec_collected_results.at(i))
+			{
+				result = vec_collected_results.at(i);
+			}
+		}
+	}
 		break;
 	case MAX:
-		result = getMax(vec_collected_results);
+	{
+		result = LLONG_MIN;
+		for (unsigned i = 0; i < vec_collected_results.size(); ++i)
+		{
+			if (result < vec_collected_results.at(i))
+			{
+				result = vec_collected_results.at(i);
+			}
+		}
+	}
 		break;
 	case SOS:
-		result = getSum(vec_collected_results);
+	{
+		result = 0;
+		for (unsigned i = 0; i < vec_collected_results.size(); ++i)
+		{
+			result += vec_collected_results.at(i);
+		}
+	}
 		break;
 	default:
 

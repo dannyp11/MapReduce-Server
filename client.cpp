@@ -51,6 +51,14 @@ int main(int argc, char** argv)
 	input_file.close();
 	// get data from input file end--------------------------------
 
+	//debug
+//	vec_input_data.clear();
+//	for (int i =0; i < 10; ++i)
+//	{
+//		vec_input_data.push_back(1000000);
+//		TRACE(vec_input_data.at(i));
+//	}
+
 	// build clientMessage ----------------------------------------
 	clientMessage.entriesCount = static_cast<int>(vec_input_data.size());
 
@@ -94,7 +102,7 @@ int main(int argc, char** argv)
 		clientMessage.data[i] = vec_input_data.at(i);
 	}
 
-	clientMessage.resultValue = LONG_MIN;
+	clientMessage.resultValue = LLONG_MAX;
 	// build clientMessage end ------------------------------------
 
 	// TCP data ----------------------------------------------------

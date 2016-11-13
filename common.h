@@ -39,7 +39,7 @@ typedef enum e_ClientCalcCommand
 typedef struct s_ClientMessage
 {
 	ClientCalcCommand command; // RESULT if reply
-	long resultValue; // must be LONG_MIN if sent from client
+	long long resultValue; // must be LLONG_MIN if sent from client
 	int entriesCount; // length of data
 	long data[MAX_TCP_ENTRIES]; // must be null if sent from A, B, C. Limit to 350 values
 } ClientMessage;
