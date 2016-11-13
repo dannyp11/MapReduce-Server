@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include <iostream>
+#include <algorithm>
 
 using std::cout;
 using std::endl;
@@ -128,6 +129,10 @@ void AWSServer::runServer()
 	{
 		// get client msg
 		ClientMessage recv_client_msg = getClientMessage();
+
+		// output to console
+		cout << "The " << mName << " has received " << recv_client_msg.entriesCount
+				<< " numbers from the client using TCP over port " << mTCPLocalPort << endl;
 
 		// send and get calculated result from backends
 		long long final_result = getResultFromBackend(recv_client_msg);
@@ -432,7 +437,7 @@ ClientMessage AWSServer::getClientMessage()
 	// success TCP handshake with client
 	char buf[sizeof(ClientMessage)];
 	memset(&buf, 0, sizeof(buf));
-	int recv_bytes = read(mRemoteTCPSockfd, buf, 1024);
+	int recv_bytes = read(mRemoteTCPSockfd, buf, sizeof(buf));
 
 	if (recv_bytes < 0)
 	{

@@ -59,7 +59,9 @@ g. Issues:
 h. Reused code:
 	- For TCP socket initiating, I consulted TCP server code: http://www.linuxhowtos.org/data/6/server.c
 	  but didn't copy its exact content or order. 
-	- I pushed the project to my private repository on bitbucket, account datpham@usc.edu. In case plagiarism system detects 			exact similarity
+	- For UDP socket initiation, I consulted my own code on private bitbucket account tdpham1105@gmail.com
+	  but didn't replicate exact content or order.
+	- I pushed the project to my another private repository on bitbucket, account datpham@usc.edu. In case plagiarism system detects exact similarity
 	
 
 

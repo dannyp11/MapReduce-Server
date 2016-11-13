@@ -17,6 +17,8 @@
 
 #include "common.h"
 
+#include <algorithm>
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -58,6 +60,12 @@ int main(int argc, char** argv)
 //		vec_input_data.push_back(1000000);
 //		TRACE(vec_input_data.at(i));
 //	}
+//	std::sort(vec_input_data.begin(), vec_input_data.end());
+//	for (unsigned i = 0; i < vec_input_data.size();++i)
+//	{
+//		cout << vec_input_data.at(i) << endl;
+//	}
+//	return 0;
 
 	// build clientMessage ----------------------------------------
 	clientMessage.entriesCount = static_cast<int>(vec_input_data.size());
@@ -140,11 +148,13 @@ int main(int argc, char** argv)
 	awsTCPServer_sockaddr_in.sin_port = htons(TCP_PORT_AWS);
 
 	if (connect(localTCPSockfd, (struct sockaddr*) &awsTCPServer_sockaddr_in,
-			sizeof(awsTCPServer_sockaddr_in)) > 0)
+			sizeof(awsTCPServer_sockaddr_in)) != 0)
 	{
 		perror("Error connecting TCP with aws");
 		exit(EXIT_FAILURE);
 	}
+
+	cout << "The client is up and running." << endl;
 	// establish TCP connection end -----------------------------------
 
 	// send message ---------------------------------------------------

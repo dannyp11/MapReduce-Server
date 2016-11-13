@@ -102,7 +102,7 @@ void BackendServer::runServer()
 		case SUM:
 		{
 			mMessage.resultValue = getSum(messageData);
-			cout << "The Server " << mName << " has finished the reduction SUM: "
+			cout << "The Server " << mName << " has successfully finished the reduction SUM: "
 					<< mMessage.resultValue << endl;
 		}
 			break;
@@ -110,7 +110,7 @@ void BackendServer::runServer()
 		case MIN:
 		{
 			mMessage.resultValue = getMin(messageData);
-			cout << "The Server " << mName << " has finished the reduction MIN: "
+			cout << "The Server " << mName << " has successfully finished the reduction MIN: "
 								<< mMessage.resultValue << endl;
 		}
 			break;
@@ -118,7 +118,7 @@ void BackendServer::runServer()
 		case MAX:
 		{
 			mMessage.resultValue = getMax(messageData);
-			cout << "The Server " << mName << " has finished the reduction MAX: "
+			cout << "The Server " << mName << " has successfully finished the reduction MAX: "
 								<< mMessage.resultValue << endl;
 		}
 			break;
@@ -126,7 +126,7 @@ void BackendServer::runServer()
 		case SOS:
 		{
 			mMessage.resultValue = getSos(messageData);
-			cout << "The Server " << mName << " has finished the reduction SOS: "
+			cout << "The Server " << mName << " has successfully finished the reduction SOS: "
 								<< mMessage.resultValue << endl;
 		}
 			break;
