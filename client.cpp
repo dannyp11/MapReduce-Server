@@ -136,7 +136,7 @@ int main(int argc, char** argv)
 	awsTCPServer_sockaddr_in.sin_family = AF_INET;
 	memcpy((char*) &awsTCPServer_sockaddr_in.sin_addr.s_addr,
 			(char*) awsServerhostent->h_addr,
-	awsServerhostent->h_length);
+			awsServerhostent->h_length);
 	awsTCPServer_sockaddr_in.sin_port = htons(TCP_PORT_AWS);
 
 	if (connect(localTCPSockfd, (struct sockaddr*) &awsTCPServer_sockaddr_in,
