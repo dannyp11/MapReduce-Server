@@ -18,8 +18,9 @@ rsync -auR --no-implied-dirs --files-from=sync_list.txt . datpham@nunki:~/ee450/
 rsync -auR --no-implied-dirs --include="*.cpp" --include="*.h" --exclude="*" . datpham@nunki:~/ee450/project
 echo "done"
 
+# create tar submit file
+rm -f ee450_datpham_session2.tar.gz
+tar -cvf ee450_datpham_session2.tar.gz -T tar_list.txt
+
 #restore Makefile
 sed -i "s/$NEW/$ORIG/g" Makefile
-
-# run makefile on remote machine
-#ssh datpham@nunki '( cd ~/ee450/project/ && make clean) ; ( cd ~/ee450/project/ && make)'
