@@ -9,8 +9,6 @@
 #define AWS_SERVER_H_
 
 #include "server_class.h"
-#include <string>
-#include <vector>
 #include "common.h"
 
 using std::string;
@@ -24,6 +22,14 @@ public:
 
 	bool initServer();
 	void runServer();
+
+protected:
+	long getResultFromBackend(const ClientMessage& clientMessage) const;
+
+	// get message from client
+	ClientMessage getClientMessage();
+
+	bool sendClientMessage(const ClientMessage& msg) const;
 
 private:
 	// for backend servers
@@ -44,9 +50,11 @@ private:
 
 	// for client
 	struct hostent* mClient;
-	long mIncomingData[MAX_TCP_ENTRIES];
-	ServerMessage mServerMessage;
-	ClientMessage mClientMessage;
+	int mTCPSockfd;
+	int mRemoteTCPSockfd;
+	int mTCPLocalPort;
+	struct sockaddr_in mTCPRemoteSockaddr_in;
+	struct sockaddr_in mTCPLocalSockaddr_in;
 };
 
 #endif /* AWS_SERVER_H_ */

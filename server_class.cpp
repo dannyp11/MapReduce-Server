@@ -45,8 +45,6 @@ Server::Server(int local_port, string name) :
 	{
 		mIsAws = false;
 	}
-
-//	initServer();
 }
 
 bool Server::initServer()
@@ -71,10 +69,11 @@ bool Server::initServer()
 	mUDPLocalAddr_in.sin_port = htons(mUDPLocalPort);
 
 	// bind local udp to socket
-	if (bind(mUDPLocalSockFd, (struct sockaddr*) &mUDPLocalAddr_in, sizeof(mUDPLocalAddr_in))< 0)
+	if (bind(mUDPLocalSockFd, (struct sockaddr*) &mUDPLocalAddr_in,
+			sizeof(mUDPLocalAddr_in)) < 0)
 	{
 		LOG("Error binding socket of server " + mName);
-		exit(1);
+		res = false;
 	}
 
 	isInitSuccess = res;
@@ -90,9 +89,14 @@ void Server::runServer()
 	}
 }
 
-long Server::getMin(const vector<long>& vec_data)
+long Server::getMin(const vector<long>& vec_data) const
 {
 	long result = *vec_data.begin();
+
+	if (vec_data.size() == 0)
+	{
+		return LONG_MAX;
+	}
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
@@ -106,9 +110,14 @@ long Server::getMin(const vector<long>& vec_data)
 	return result;
 }
 
-long Server::getMax(const vector<long>& vec_data)
+long Server::getMax(const vector<long>& vec_data) const
 {
 	long result = *vec_data.begin();
+
+	if (vec_data.size() == 0)
+	{
+		return LONG_MIN;
+	}
 
 	for (vector<long>::const_iterator it = vec_data.begin();
 			it != vec_data.end(); ++it)
@@ -122,7 +131,7 @@ long Server::getMax(const vector<long>& vec_data)
 	return result;
 }
 
-long Server::getSum(const vector<long>& vec_data)
+long Server::getSum(const vector<long>& vec_data) const
 {
 	long result = 0;
 
@@ -135,7 +144,7 @@ long Server::getSum(const vector<long>& vec_data)
 	return result;
 }
 
-long Server::getSos(const vector<long>& vec_data)
+long Server::getSos(const vector<long>& vec_data) const
 {
 	long result = 0;
 
@@ -143,6 +152,44 @@ long Server::getSos(const vector<long>& vec_data)
 			it != vec_data.end(); ++it)
 	{
 		result += (*it) * (*it);
+	}
+
+	return result;
+}
+
+string Server::getCalcCommandName(CalcCommand cmd) const
+{
+	string result = "Invalid ClientCalcCommand";
+
+	switch (cmd)
+	{
+	case SUM:
+		result = "SUM";
+		break;
+	case MIN:
+		result = "MIN";
+		break;
+	case MAX:
+		result = "MAX";
+		break;
+	case SOS:
+		result = "SOS";
+		break;
+	case RESULT:
+		result = "RESULT";
+		break;
+	}
+
+	return result;
+}
+
+vector<long> Server::getVectorFromArray(int data_len, const long data[]) const
+{
+	vector<long> result;
+
+	for (int i = 0; i < data_len; ++i)
+	{
+		result.push_back(data[i]);
 	}
 
 	return result;

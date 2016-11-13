@@ -52,7 +52,7 @@ bool BackendServer::initServer()
 	if (mAwsServer_hostent == NULL)
 	{
 		LOG("Error: can't connect to " + mAWSAddress);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	// setup IP for AWS
@@ -82,13 +82,7 @@ void BackendServer::runServer()
 		// process received message
 		memcpy(&mMessage, buf, sizeof(buf));
 
-		vector<long> messageData;
-		for (int i = 0; i < mMessage.entriesCount; i++)
-		{
-			messageData.push_back(mMessage.data[i]);
-		}
-
-		TRACE(mMessage.serverName);
+		vector<long> messageData = getVectorFromArray(mMessage.entriesCount, mMessage.data);
 
 		// output to console
 		cout << "The Server " << mName << " has received "
@@ -164,7 +158,5 @@ void BackendServer::runServer()
 
 		// clear buf
 		memset(&buf, 0, sizeof(buf));
-
-		//break;
 	}
 }

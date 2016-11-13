@@ -9,10 +9,6 @@
 #define BACKEND_SERVER_H_
 
 #include "server_class.h"
-
-#include <string>
-#include <vector>
-
 #include "common.h"
 
 using std::string;

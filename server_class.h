@@ -59,6 +59,11 @@ protected:
 	 */
 	virtual bool initServer();
 
+	/*
+	 * Simple CalcCommand name converter
+	 */
+	string getCalcCommandName(CalcCommand cmd) const;
+
 protected:
 	bool mIsAws;
 	string mName;
@@ -71,10 +76,12 @@ protected:
 
 protected:
 	// data handling
-	long getMin(const vector<long>& vec_data);
-	long getMax(const vector<long>& vec_data);
-	long getSum(const vector<long>& vec_data);
-	long getSos(const vector<long>& vec_data);
+	long getMin(const vector<long>& vec_data) const;
+	long getMax(const vector<long>& vec_data) const;
+	long getSum(const vector<long>& vec_data) const;
+	long getSos(const vector<long>& vec_data) const;
+
+	vector<long> getVectorFromArray(int data_len, const long data[]) const;
 
 private:
 	bool isInitSuccess;

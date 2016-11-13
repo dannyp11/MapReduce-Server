@@ -14,20 +14,26 @@ using std::string;
 void show_usage(const char* bin_name)
 {
 	cout << "usage: " << bin_name << " [-OPTION] [VALUE]" << endl;
+	cout << "		[-n server name (backend only)]" << endl;
 	cout << "		[-i show binary info]" << endl;
 	cout << "		[-h show help]" << endl;
 	exit(1);
 }
 
-void parse_command_line_args(int argc, char** argv)
+void parse_command_line_args(int argc, char** argv, string& server_name)
 {
 	char* exec_name = *argv;
 	signed char command;
 
-	while ((command = getopt(argc, argv, "ih")) != -1)
+	while ((command = getopt(argc, argv, "ihn:")) != -1)
 	{
 		switch (command)
 		{
+		case 'n':
+		{
+			server_name = optarg;
+			break;
+		}
 
 		case 'i':
 		{
@@ -61,4 +67,30 @@ void parse_command_line_args(int argc, char** argv)
 			//			show_usage(exec_name);
 		}
 	}
+}
+
+string getClientCalcCommandName(ClientCalcCommand cmd)
+{
+	string result = "Invalid ClientCalcCommand";
+
+	switch (cmd)
+	{
+	case CSUM:
+		result = "SUM";
+		break;
+	case CMIN:
+		result = "MIN";
+		break;
+	case CMAX:
+		result = "MAX";
+		break;
+	case CSOS:
+		result = "SOS";
+		break;
+	case CRESULT:
+		result = "RESULT";
+		break;
+	}
+
+	return result;
 }
