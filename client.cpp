@@ -62,6 +62,13 @@ int main(int argc, char** argv)
 	// build clientMessage ----------------------------------------
 	clientMessage.entriesCount = static_cast<int>(vec_input_data.size());
 
+	if (clientMessage.entriesCount == 0)
+	{
+		cout << "Warning: empty input data" << endl;
+		cout << "Client didn't send to AWS server" << endl;
+		return 1;
+	}
+
 	// error checking
 	if (argc != 2)
 	{

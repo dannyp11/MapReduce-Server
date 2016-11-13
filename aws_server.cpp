@@ -159,6 +159,12 @@ void AWSServer::runServer()
 long long AWSServer::getResultFromBackend(
 		const ClientMessage& clientMessage) const
 {
+	if (clientMessage.entriesCount == 0)
+	{
+		cout << "Warning: no input data from client" << endl;
+		return LLONG_MIN;
+	}
+
 	long long result = 0;
 	vector<long long> vec_collected_results;
 
