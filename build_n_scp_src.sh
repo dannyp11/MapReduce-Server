@@ -20,7 +20,9 @@ echo "done"
 
 # create tar submit file
 rm -f ee450_datpham_session2.tar.gz
-tar -cvf ee450_datpham_session2.tar.gz -T tar_list.txt
+tar -cvf ee450_datpham_session2.tar -T tar_list.txt
+
+gzip ee450_datpham_session2.tar
 
 #restore Makefile
 sed -i "s/$NEW/$ORIG/g" Makefile
