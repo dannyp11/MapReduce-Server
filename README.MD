@@ -1,4 +1,4 @@
-Author: Dat Pham
+#Author: Dat Pham
 
 A simple model of computational offloading where a single client offloads some computation
 to a server which in turn distributes the load over 3 backend servers. The server facing the 
