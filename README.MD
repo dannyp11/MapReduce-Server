@@ -6,4 +6,4 @@ client then collects the results from thebackend and communicates the same to th
 the required format. This is anexample of how a cloud­computing service such Amazon Web Services 
 might implement MapReduce to speed up a large computation task offloaded by the client.
 
-![Alt text](networkillustration.png?raw=true "Illustration of the network")
+![Alt text](https://github.com/dannyp11/MapReduce-Server/blob/master/networkIllustration.png?raw=true "Illustration of the network")
