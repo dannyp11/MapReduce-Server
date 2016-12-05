@@ -1,5 +1,0 @@
-Makefile
-README.txt
-nums.csv
-nunki_build_n_run.sh
-
