@@ -1,6 +1,8 @@
 #Map Reduce Server model
 by Dat Pham
 
+Tested on Ubuntu 14, Fedora 24
+
 A simple model of computational offloading where a single client offloads some computation
 to a server which in turn distributes the load over 3 backend servers. The server facing the 
 client then collects the results from thebackend and communicates the same to the client in 
