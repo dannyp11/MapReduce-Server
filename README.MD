@@ -1,6 +1,8 @@
 #Map Reduce Server model
 by Dat Pham
 
+[![Build Status](https://travis-ci.org/dannyp11/MapReduce-Server.svg?branch=master)](https://travis-ci.org/dannyp11/MapReduce-Server)
+
 Tested on Ubuntu 14, Fedora 24
 
 A simple model of computational offloading where a single client offloads some computation
